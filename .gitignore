@@ -153,6 +153,11 @@ _TeamCity*
 # AxoCover is a Code Coverage Tool
 .axoCover/*
 !.axoCover/settings.json
+bin/
+obj/
+Properties/
+*.csproj
+*.http
 
 # Coverlet is a free, cross platform Code Coverage Tool
 coverage*.json
