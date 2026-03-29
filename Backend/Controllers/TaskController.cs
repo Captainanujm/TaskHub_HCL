@@ -27,9 +27,19 @@ namespace TaskHub.Controllers
             return Ok(task);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(TaskDTO taskDto)
+        public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskDTO taskDto)
         {
+            if (id != taskDto.Id)
+            {
+                return BadRequest("Route id and payload id must match.");
+            }
+
             var updatedTask = await _taskService.UpdateTask(taskDto);
+            if (updatedTask == null)
+            {
+                return NotFound();
+            }
+
             return Ok(updatedTask);
         }
         [HttpPost]

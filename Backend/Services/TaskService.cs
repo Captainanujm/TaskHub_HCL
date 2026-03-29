@@ -18,7 +18,7 @@ namespace TaskHub.Services
                 Id = t.Id,
                 Title = t.Title,
                 Description = t.Description,
-                Status = t.Status,
+                Status = t.Status ?? "Pending",
             });
         }
         public async Task<TaskDTO?> GetById(int id)
@@ -30,10 +30,10 @@ namespace TaskHub.Services
                 Id = task.Id,
                 Title = task.Title,
                 Description = task.Description,
-                Status = task.Status,
+                Status = task.Status ?? "Pending",
             };
         }
-        public async Task<TaskDTO> UpdateTask(TaskDTO taskDto)
+        public async Task<TaskDTO?> UpdateTask(TaskDTO taskDto)
         {
             var task = new Todotask
             {
@@ -43,12 +43,17 @@ namespace TaskHub.Services
                 Status = taskDto.Status,
             };
             var updatedTask = await _taskRepo.UpdateTaskAsync(task);
+            if (updatedTask == null)
+            {
+                return null;
+            }
+
             return new TaskDTO
             {
                 Id = updatedTask.Id,
                 Title = updatedTask.Title,
                 Description = updatedTask.Description,
-                Status = updatedTask.Status,
+                Status = updatedTask.Status ?? "Pending",
             };
         }
         public async Task<TaskDTO> CreateTask(TaskDTO taskDto)
@@ -65,12 +70,17 @@ namespace TaskHub.Services
                 Id = createdTask.Id,
                 Title = createdTask.Title,
                 Description = createdTask.Description,
-                Status = createdTask.Status,
+                Status = createdTask.Status ?? "Pending",
             };
         }
         public async Task<TaskDTO?> DeleteTask(int id)
         {
-            TaskDTO deletedTask = await GetById(id);
+            var deletedTask = await GetById(id);
+            if (deletedTask == null)
+            {
+                return null;
+            }
+
             await _taskRepo.DeleteTaskAsync(id);
             return deletedTask;
         }

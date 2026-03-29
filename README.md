@@ -57,3 +57,45 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Frontend + Backend Integration
+
+This repo contains:
+- Angular frontend in the root folder
+- ASP.NET Core backend in [Backend/](Backend/)
+
+The Angular app calls the backend through a dev proxy:
+- Frontend API base path: `/api/task`
+- Proxy file: [proxy.conf.json](proxy.conf.json)
+- Backend target: `http://localhost:5202`
+
+### Run both locally
+
+1. Configure backend connection string:
+- Copy [Backend/appsettings.example.json](Backend/appsettings.example.json) to `Backend/appsettings.Development.json`
+- Set your MySQL credentials in `ConnectionStrings.DefaultConnection`
+
+2. Start backend:
+
+```bash
+cd Backend
+dotnet restore
+dotnet run
+```
+
+3. Start frontend (new terminal):
+
+```bash
+npm install
+npm start
+```
+
+Or run both together from the project root:
+
+```bash
+npm run start:full
+```
+
+4. Open:
+- Frontend: `http://localhost:4200/tasks`
+- Backend Swagger: `http://localhost:5202/swagger`

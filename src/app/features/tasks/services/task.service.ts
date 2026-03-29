@@ -8,7 +8,7 @@ import { Task } from "../models/task.model";
 })
    
 export class TaskService{
-    private apiurl='http://localhost:5202/api/task'
+    private apiurl='/api/task'
     constructor(private http:HttpClient){}
     getAll():Observable<Task[]>{
         return this.http.get<Task[]>(this.apiurl);

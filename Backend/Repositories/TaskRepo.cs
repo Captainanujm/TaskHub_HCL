@@ -20,11 +20,20 @@ namespace TaskHub.Repositories
             var task = await _context.Todotasks.FindAsync(id);
             return task;
         }
-        public async Task<Todotask> UpdateTaskAsync(Todotask task)
+        public async Task<Todotask?> UpdateTaskAsync(Todotask task)
         {
-            _context.Todotasks.Update(task);
+            var existingTask = await _context.Todotasks.FindAsync(task.Id);
+            if (existingTask == null)
+            {
+                return null;
+            }
+
+            existingTask.Title = task.Title;
+            existingTask.Description = task.Description;
+            existingTask.Status = task.Status;
+
             await _context.SaveChangesAsync();
-            return task;
+            return existingTask;
         }
         public async Task<Todotask> CreateTaskAsync(Todotask task)
         {
