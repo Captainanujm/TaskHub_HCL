@@ -1,81 +1,78 @@
-# TaskHubClient
+# TaskHub Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
+TaskHub is a full-stack task management app with:
 
-## Development server
+- Angular 21 frontend (project root)
+- ASP.NET Core backend in `Backend/`
+- MySQL database
 
-To start a local development server, run:
+The frontend calls the backend through a dev proxy.
 
-```bash
-ng serve
+## Tech Stack
+
+- Node.js + npm
+- Angular CLI 21
+- .NET SDK 10.0
+- ASP.NET Core Web API
+- Entity Framework Core + MySQL
+
+## Project Structure
+
+```text
+TaskHub_Client/
+	src/                    # Angular app
+	Backend/                # ASP.NET Core API
+	proxy.conf.json         # Angular dev proxy (/api -> backend)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Prerequisites
 
-## Code scaffolding
+Install these before running locally:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js (LTS recommended)
+- npm
+- .NET 10 SDK
+- MySQL Server
 
-```bash
-ng generate component component-name
-```
+## Configuration
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+1. In `Backend/`, create `appsettings.Development.json` from the example:
 
 ```bash
-ng build
+copy Backend\appsettings.example.json Backend\appsettings.Development.json
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2. Update `ConnectionStrings.DefaultConnection` with your MySQL credentials.
 
-## Running unit tests
+Example:
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+```json
+{
+	"ConnectionStrings": {
+		"DefaultConnection": "server=localhost;port=3306;database=taskhub;user=root;password=YOUR_PASSWORD"
+	}
+}
+```
+
+## Run Locally
+
+### Option 1: Run frontend and backend together
+
+From the project root:
 
 ```bash
-ng test
+npm install
+npm run start:full
 ```
 
-## Running end-to-end tests
+This runs:
 
-For end-to-end (e2e) testing, run:
+- Backend: `dotnet run` in `Backend/` on `http://localhost:5202`
+- Frontend: `ng serve` on `http://localhost:4200`
 
-```bash
-ng e2e
-```
+### Option 2: Run each service manually
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## Frontend + Backend Integration
-
-This repo contains:
-- Angular frontend in the root folder
-- ASP.NET Core backend in [Backend/](Backend/)
-
-The Angular app calls the backend through a dev proxy:
-- Frontend API base path: `/api/task`
-- Proxy file: [proxy.conf.json](proxy.conf.json)
-- Backend target: `http://localhost:5202`
-
-### Run both locally
-
-1. Configure backend connection string:
-- Copy [Backend/appsettings.example.json](Backend/appsettings.example.json) to `Backend/appsettings.Development.json`
-- Set your MySQL credentials in `ConnectionStrings.DefaultConnection`
-
-2. Start backend:
+Terminal 1 (backend):
 
 ```bash
 cd Backend
@@ -83,19 +80,48 @@ dotnet restore
 dotnet run
 ```
 
-3. Start frontend (new terminal):
+Terminal 2 (frontend):
 
 ```bash
 npm install
 npm start
 ```
 
-Or run both together from the project root:
+## URLs
+
+- Frontend: `http://localhost:4200/tasks`
+- Backend API base: `http://localhost:5202/api/task`
+- Swagger UI: `http://localhost:5202/swagger`
+
+## API Proxy
+
+The Angular app uses `proxy.conf.json` during development:
+
+- Frontend requests to `/api/*`
+- Proxied to `http://localhost:5202`
+
+This keeps frontend code using relative API paths like `/api/task`.
+
+## Available NPM Scripts
+
+From project root:
+
+- `npm start` - Run Angular dev server
+- `npm run start:backend` - Run backend (`dotnet run` in `Backend/`)
+- `npm run start:full` - Run frontend and backend concurrently
+- `npm run build` - Build Angular app
+- `npm run watch` - Build Angular app in watch mode
+- `npm run test` - Run unit tests
+
+## Build
+
+Frontend production build:
 
 ```bash
-npm run start:full
+npm run build
 ```
 
-4. Open:
-- Frontend: `http://localhost:4200/tasks`
-- Backend Swagger: `http://localhost:5202/swagger`
+## Notes
+
+- Backend CORS allows `http://localhost:4200` and `https://localhost:4200` in development.
+- If backend startup fails, verify your MySQL server is running and the connection string is correct.
