@@ -1,0 +1,45 @@
+<section class="form-shell">
+  <header class="form-header">
+    <h2>{{ isEdit ? 'Edit Task' : 'Create Task' }}</h2>
+    <p>{{ isEdit ? 'Update details and keep your work in sync.' : 'Capture what matters next and stay organized.' }}</p>
+  </header>
+
+  <form #form="ngForm" (ngSubmit)="save(form)" class="task-form" novalidate>
+    <div class="field">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        name="title"
+        [(ngModel)]="task.title"
+        required
+        #title="ngModel"
+        placeholder="e.g. Prepare sprint planning notes"
+      >
+      <small *ngIf="submitted && title.invalid" class="error-text">Title is required.</small>
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="task.description"
+        rows="4"
+        placeholder="Add optional details for this task..."
+      ></textarea>
+    </div>
+
+    <div class="field">
+      <label for="status">Status</label>
+      <select id="status" name="status" [(ngModel)]="task.status">
+        <option [ngValue]="statusOptions.Pending">Pending</option>
+        <option [ngValue]="statusOptions.Completed">Completed</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button type="button" routerLink="/tasks" class="btn btn-ghost">Cancel</button>
+      <button type="submit" class="btn btn-primary">{{ isEdit ? 'Update Task' : 'Create Task' }}</button>
+    </div>
+  </form>
+</section>

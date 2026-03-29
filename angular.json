@@ -2,7 +2,8 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "33f857d9-c2e3-46b5-8cfa-6fe8e51e16d7"
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -59,7 +60,8 @@
               "buildTarget": "TaskHub_Client:build:production"
             },
             "development": {
-              "buildTarget": "TaskHub_Client:build:development"
+              "buildTarget": "TaskHub_Client:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

@@ -1,0 +1,44 @@
+<section class="task-list-shell">
+  <header class="list-header">
+    <div>
+      <h2>Your Tasks</h2>
+      <p>Track progress and keep momentum across your day.</p>
+    </div>
+
+    <button routerLink="/create" class="add-btn">+ Add Task</button>
+  </header>
+
+  <div *ngIf="loading" class="state-card">Loading tasks...</div>
+
+  <div *ngIf="!loading && errorMessage" class="state-card state-error">
+    <h3>Could not fetch tasks</h3>
+    <p>{{ errorMessage }}</p>
+    <button type="button" class="add-btn" (click)="loadTasks()">Retry</button>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && !tasks.length" class="state-card state-empty">
+    <h3>No tasks yet</h3>
+    <p>Create your first task to get started.</p>
+    <button routerLink="/create" class="add-btn">Create Task</button>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && tasks.length" class="task-grid">
+    <article class="task-card" *ngFor="let task of tasks">
+      <div class="task-head">
+        <h3>{{ task.title }}</h3>
+        <span class="status-pill" [class.is-complete]="task.status === 'Completed'">
+          {{ task.status }}
+        </span>
+      </div>
+
+      <p class="task-description">
+        {{ task.description || 'No description provided yet.' }}
+      </p>
+
+      <div class="actions-row">
+        <button [routerLink]="['/edit', task.id]" class="btn btn-secondary">Edit</button>
+        <button (click)="deleteTask(task.id)" class="btn btn-danger">Delete</button>
+      </div>
+    </article>
+  </div>
+</section>

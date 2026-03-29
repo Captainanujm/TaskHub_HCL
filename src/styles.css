@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+	--bg: #f4f6f8;
+	--surface: #ffffff;
+	--surface-soft: #f8fbfd;
+	--text: #132022;
+	--muted: #5d7173;
+	--line: #dce6e9;
+	--accent: #0f766e;
+	--accent-hover: #0b5b56;
+	--danger: #c0392b;
+	--shadow: 0 18px 45px -25px rgba(15, 34, 36, 0.38);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+}
+
+body {
+	font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+	color: var(--text);
+	background:
+		radial-gradient(circle at 10% -20%, #cce7e4 0%, rgba(204, 231, 228, 0) 45%),
+		radial-gradient(circle at 90% 120%, #f9d9c8 0%, rgba(249, 217, 200, 0) 48%),
+		var(--bg);
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
